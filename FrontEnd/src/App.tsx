@@ -135,7 +135,8 @@ function Content({ page, setPage, profile, setProfile }: { page:Page; setPage:(p
   const refresh = useCallback(async () => {
     if (!supabase) return
     setBusy(true); setError('')
-    const requests = [api<{courses:Course[]}>('/courses'),api<{resources:Resource[]}>('/resources'),api<{assignments:Assignment[]}>('/assessments?type=assignment'),api<{quizzes:Quiz[]}>('/assessments?type=quiz'),api<{announcements:Announcement[]}>('/announcements'),api<{grades:Grade[]}>('/marks'),api<{complaints:Complaint[]}>('/complaints')]
+    type DashboardData = { courses?:Course[]; resources?:Resource[]; assignments?:Assignment[]; quizzes?:Quiz[]; announcements?:Announcement[]; grades?:Grade[]; complaints?:Complaint[] }
+    const requests:Promise<DashboardData>[] = [api<DashboardData>('/courses'),api<DashboardData>('/resources'),api<DashboardData>('/assessments?type=assignment'),api<DashboardData>('/assessments?type=quiz'),api<DashboardData>('/announcements'),api<DashboardData>('/marks'),api<DashboardData>('/complaints')]
     const results=await Promise.allSettled(requests)
     const [c,r,a,q,n,g,co]=results
     if(c.status==='fulfilled')setCourses(c.value.courses||[])

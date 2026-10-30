@@ -7,4 +7,5 @@ coverage/
 FrontEnd/.env
 Backend/.env
 *.log
+*.tsbuildinfo
 supabase/.temp/
